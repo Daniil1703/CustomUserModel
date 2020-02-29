@@ -2,10 +2,11 @@
 *.log
 *.pot
 *.pyc
+__pycache__
 media
 
 # Backup files #
 *.bak
 
 # virtualenv #
-.venv
+*venv
