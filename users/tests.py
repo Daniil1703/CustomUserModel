@@ -8,12 +8,19 @@ class UsersManagersTests(TestCase):
         User = get_user_model()
         user = User.objects.create_user(
             email='normal@user.com',
-            password='foo'
+            password='foo',
+            first_name='Danya',
+            last_name='Khlistunov',
+            user_image=''
         )
         self.assertEqual(user.email, 'normal@user.com')
+        self.assertEqual(user.first_name, 'Danya')
+        self.assertEqual(user.last_name, 'Khlistunov')
+        self.assertEqual(user.user_image, '')
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
+
         try:
             # username is None for the AbstractUser option
             # username does not exist for the AbstractBaseUser option
@@ -26,6 +33,7 @@ class UsersManagersTests(TestCase):
             User.objects.create_user(email='')
         with self.assertRaises(ValueError):
             User.objects.create_user(email='', password="foo")
+
     def test_create_superuser(self):
         User = get_user_model()
         admin_user = User.objects.create_superuser('super@user.com', 'foo')
@@ -33,6 +41,7 @@ class UsersManagersTests(TestCase):
         self.assertTrue(admin_user.is_active)
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
+
         try:
             # username is None for the AbstractUser option
             # username does not exist for the AbstractBaseUser option
