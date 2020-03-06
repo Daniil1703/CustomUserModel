@@ -3,3 +3,7 @@ from django.conf.urls import url
 from . import views
 
 app_name = 'mainsite'
+
+urlpatterns = [
+    path('', views.index, name='dashboard')
+]
