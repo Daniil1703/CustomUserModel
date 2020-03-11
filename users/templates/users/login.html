@@ -1,0 +1,32 @@
+{% extends 'mainsite/base.html' %}
+{% load static %}
+
+{% block title %}
+    Вход
+{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/userform.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'mainsite/includes/messages.html' %}
+    <form class="" action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+
+            <!-- блок появления ошибок при неверных данных -->
+            <div class="form-users-group">
+                {% if field.errors %}
+                    <div class="alert-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {{ field.label }}
+            {{ field }}
+        {% endfor %}
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}

@@ -6,16 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li
-                    {% if message.tags %}
-                        class="{{ message.tags }}"
-                    {% endif %}>
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    {% include 'mainsite/includes/messages.html' %}
+    <a href="{% url 'users:user_create_url' %}">Регистрация</a>
+    <a href="{% url 'users:login' %}">Войти</a>
 {% endblock %}

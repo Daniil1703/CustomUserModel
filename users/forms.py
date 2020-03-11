@@ -49,6 +49,25 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError("Пароли не совпадают!")
         return password2
 
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        label=('Email'),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+
+    password = forms.CharField(
+        label=('Пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
+    class Meta(object):
+        model = CustomUser
+
+        fields = [
+            'email', 'password'
+        ]
+
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
