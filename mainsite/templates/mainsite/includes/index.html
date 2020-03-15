@@ -7,6 +7,16 @@
 
 {% block content %}
     {% include 'mainsite/includes/messages.html' %}
-    <a href="{% url 'users:user_create_url' %}">Регистрация</a>
-    <a href="{% url 'users:login' %}">Войти</a>
+    {% if request.user.is_authenticated %}
+        HELLO {{ request.user.first_name }} {{ request.user.last_name }}!
+        <p>Может быть вы желаете выйти из системы? Тогда вам сюда:
+            <a href="{% url 'users:logout' %}">Выход</a>
+        </p>
+        <p>Хотите сменить пароль?
+            <a href="{% url 'users:password_change' %}">Сменить</a>
+        </p>
+    {% else %}
+        <a href="{% url 'users:login' %}">Войти</a>
+        <a href="{% url 'users:user_create_url' %}">Регистрация</a>
+    {% endif %}
 {% endblock %}

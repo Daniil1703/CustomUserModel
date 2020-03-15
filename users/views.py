@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import AbstractBaseUser
 from .models import CustomUser
@@ -10,7 +10,6 @@ from .forms import CustomUserCreationForm, LoginForm
 
 
 class UserCreate(View):
-    """docstring for UserCreate."""
 
     def get(self, request):
         form = CustomUserCreationForm()
@@ -64,3 +63,12 @@ class UserLogin(View):
         return render(
                request, 'users/login.html', context={'form': bound_form}
                )
+
+def message_change_password(request):
+    messages.success(request, 'Вы успешно сменили пароль!')
+    return redirect('mainsite:dashboard')
+
+def logout_view(request):
+    logout(request)
+    messages.warning(request, 'Вы вышли из системы!')
+    return redirect('users:login')

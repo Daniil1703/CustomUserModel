@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm,\
+    UserCreationForm, UserChangeForm,PasswordResetForm, SetPasswordForm
 from django import forms
 from .models import CustomUser
 from django.core.exceptions import ValidationError
@@ -6,7 +7,7 @@ from django.core.exceptions import ValidationError
 class CustomUserCreationForm(UserCreationForm):
 
     password1 = forms.CharField(
-        label=('Парль'),
+        label=('Пароль'),
         strip=False,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
     )
@@ -67,6 +68,53 @@ class LoginForm(forms.Form):
         fields = [
             'email', 'password'
         ]
+
+class PassChForm(PasswordChangeForm):
+    error_messages = {
+        'password_mismatch': "Пароли не совпадают",
+        'password_incorrect': "Неверный старый пароль. "
+                                "Попробуйте еще раз.",
+    }
+
+    old_password = forms.CharField(
+        label=('Старый пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    new_password1 = forms.CharField(
+        label=('Новый пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    new_password2 = forms.CharField(
+        label=('Повторите пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
+# Наследуемся от стандартного сброса пароля и делаем свое поле для mail
+class PassResForm(PasswordResetForm):
+    email = forms.EmailField(
+        label=('Email'),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+
+
+class SetPassForm(SetPasswordForm):
+    error_messages = {
+        'password_mismatch': "Пароли не совпадают",
+    }
+    new_password1 = forms.CharField(
+        label=('Новый пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    new_password2 = forms.CharField(
+        label=('Повторите пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+
 
 class CustomUserChangeForm(UserChangeForm):
 

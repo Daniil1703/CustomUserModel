@@ -26,7 +26,12 @@
 
             {{ field.label }}
             {{ field }}
+            <p></p>
         {% endfor %}
+        <p></p>
         <button type="submit">Login</button>
     </form>
+    <p>Забыли пароль?
+        <a href="{% url 'users:password_reset' %}">Восстановить</a>
+    </p>
 {% endblock %}
