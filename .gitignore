@@ -2,6 +2,7 @@
 *.log
 *.pot
 *.pyc
+pyc
 __pycache__
 media
 
@@ -10,3 +11,6 @@ media
 
 # virtualenv #
 *venv
+
+#alltrash#
+TZ.txt
