@@ -7,6 +7,7 @@
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'css/userform.css' %}">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -28,6 +29,11 @@
             <p></p>
         {% endfor %}
         <p></p>
+        <button type="button" class='captcha-refresh'>
+            <img src="/" alt="reload capture">
+        </button>
+        <p></p>
         <button type="submit">Create user</button>
     </form>
+{% include 'users/includes/reload_capture.html' %}
 {% endblock %}

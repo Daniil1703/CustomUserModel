@@ -1,11 +1,20 @@
+from django import forms
 from django.contrib.auth.forms import PasswordChangeForm,\
     UserCreationForm, UserChangeForm,PasswordResetForm, SetPasswordForm
-from django import forms
 from .models import CustomUser
 from django.core.exceptions import ValidationError
+from captcha.fields import CaptchaField
+
+class CaptchaForm(forms.Form):
+    captcha = CaptchaField(
+        label=(''),
+        # widget=CustomCaptchaTextInput(attrs={'class':'form-control'})
+    )
+    class Meta:
+        fields = ['captcha']
+
 
 class CustomUserCreationForm(UserCreationForm):
-
     password1 = forms.CharField(
         label=('Пароль'),
         strip=False,
@@ -15,6 +24,9 @@ class CustomUserCreationForm(UserCreationForm):
         label=('Повторите пароль'),
         strip=False,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    captcha = CaptchaField(
+        label=('')
     )
 
     class Meta(UserCreationForm):
@@ -26,13 +38,13 @@ class CustomUserCreationForm(UserCreationForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'class': 'form-control'}
-                ),
+            ),
             'last_name': forms.TextInput(
                 attrs={'class': 'form-control'}
-                ),
+            ),
             'email': forms.EmailInput(
                 attrs={'class': 'form-control'}
-            ),
+            )
         }
 
     def clean_email(self):
@@ -69,6 +81,28 @@ class LoginForm(forms.Form):
             'email', 'password'
         ]
 
+class SecureLoginForm(forms.Form):
+    email = forms.EmailField(
+        label=('Email'),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+
+    password = forms.CharField(
+        label=('Пароль'),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    )
+    captcha = CaptchaField(
+        label=(''),
+    )
+
+    class Meta(object):
+        model = CustomUser
+
+        fields = [
+            'email', 'password', 'captcha'
+        ]
+
 class PassChForm(PasswordChangeForm):
     error_messages = {
         'password_mismatch': "Пароли не совпадают",
@@ -97,6 +131,9 @@ class PassResForm(PasswordResetForm):
     email = forms.EmailField(
         label=('Email'),
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
+    )
+    captcha = CaptchaField(
+        label=('')
     )
 
 

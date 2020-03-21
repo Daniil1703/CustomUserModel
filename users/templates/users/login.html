@@ -7,6 +7,7 @@
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'css/userform.css' %}">
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -28,10 +29,19 @@
             {{ field }}
             <p></p>
         {% endfor %}
+
+        {% if form.captcha %}
+            <button type="button" class='captcha-refresh'>
+                <img src="/" alt="reload capture">
+            </button>
+        {% endif %}
+
+
         <p></p>
         <button type="submit">Login</button>
     </form>
     <p>Забыли пароль?
         <a href="{% url 'users:password_reset' %}">Восстановить</a>
     </p>
+    {% include 'users/includes/reload_capture.html' %}
 {% endblock %}
